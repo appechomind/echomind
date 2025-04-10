@@ -66,102 +66,56 @@
   <div id="log">🎤 Listening...</div>
   <button onclick="restartMic()">🔁 Manual Restart</button>
 
-  <script>
-    const ranks = [
-      ["ace", "Ace"], ["2", "Two"], ["3", "Three"], ["4", "Four"], ["5", "Five"],
-      ["6", "Six"], ["7", "Seven"], ["8", "Eight"], ["9", "Nine"], ["10", "Ten"],
-      ["jack", "Jack"], ["queen", "Queen"], ["king", "King"]
-    ];
-    const suits = ["hearts", "diamonds", "clubs", "spades"];
+  
+<div style="margin-top:40px;">
+  <button onclick="startListening()" style="padding:15px 25px;font-size:1.2em;background:#1a1a3d;color:white;border:2px solid gold;border-radius:10px;">🎙️ Start Listening</button>
+</div>
+<div id="reveal" style="margin-top:40px;font-size:2em;color:gold;text-shadow:0 0 10px gold;"></div>
 
-    const cardMap = {};
-    for (const suit of suits) {
-      for (const [rk, rn] of ranks) {
-        const full = rn + " of " + suit.charAt(0).toUpperCase() + suit.slice(1);
-        const keys = [
-          `${rk} of ${suit}`,
-          `${rk} ${suit}`,
-          `${rn.toLowerCase()} ${suit}`,
-          `${rn.toLowerCase()} of ${suit}`
-        ];
-        for (const k of keys) {
-          cardMap[k] = full;
-        }
-      }
+<script>
+let recognition;
+let listening = false;
+
+function startListening() {
+  if (listening) return;
+
+  let userLang = localStorage.getItem("echomind_lang") || "auto";
+  if (userLang === "auto") userLang = navigator.language;
+
+  recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = userLang;
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onstart = () => {
+    listening = true;
+    document.getElementById("reveal").innerText = "🎙️ Listening...";
+  };
+  recognition.onend = () => {
+    listening = false;
+    document.getElementById("reveal").innerText += "\n(Mic stopped)";
+  };
+  recognition.onerror = (e) => {
+    console.error("Mic error:", e);
+    document.getElementById("reveal").innerText = "🎙️ Mic error: " + e.error;
+  };
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const card = matchCard(transcript);
+    if (card) {
+      showCard(card);
+    } else {
+      document.getElementById("reveal").innerText = "❓ Did not understand. Try again.";
     }
+  };
 
-    let recognition;
-    const cardReveal = document.getElementById("cardReveal");
-    const log = document.getElementById("log");
+  recognition.start();
+}
 
-    function revealCard(cardText) {
-      cardReveal.textContent = cardText;
-      localStorage.setItem("peek_message", cardText);
-      log.innerText += "\n🎉 Revealed: " + cardText;
-    }
+function showCard(card) {
+  document.getElementById("reveal").innerText = "🎴 " + card;
+  new Audio("https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-reward-952.mp3").play();
+}
+</script>
 
-    function restartMic() {
-      if (recognition) {
-        try {
-          recognition.stop();
-          recognition.start();
-          log.innerText += "\n🔁 Mic manually restarted.";
-        } catch (e) {
-          log.innerText += "\n❌ Restart error: " + e.message;
-        }
-      }
-    }
-
-    function setupRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        log.innerText = "❌ Speech recognition not supported.";
-        return;
-      }
-
-      recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.continuous = true;
-      recognition.interimResults = false;
-
-      recognition.onresult = (event) => {
-        const t = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
-        log.innerText += "\n🗣 " + t;
-
-        const normalized = t.replace(/[^a-z0-9 ]+/g, "").toLowerCase();
-        for (const spoken in cardMap) {
-          if (normalized.includes(spoken)) {
-            revealCard(cardMap[spoken]);
-            break;
-          }
-        }
-      };
-
-      recognition.onerror = (e) => {
-        log.innerText += "\n⚠️ Mic error: " + e.error;
-      };
-
-      recognition.onend = () => {
-        log.innerText += "\n🔄 Mic stopped. Restarting in 2.5 seconds...";
-        setTimeout(() => {
-          try {
-            recognition.start();
-            log.innerText += "\n🎧 Mic resumed.";
-          } catch (err) {
-            log.innerText += "\n❌ Mic restart error: " + err.message;
-          }
-        }, 2500);
-      };
-
-      try {
-        recognition.start();
-        log.innerText = "🎧 Mic listening...";
-      } catch (err) {
-        log.innerText = "❌ Mic error: " + err.message;
-      }
-    }
-
-    window.onload = () => setTimeout(setupRecognition, 500);
-  </script>
-</body>
-</html>
+</body></html>
