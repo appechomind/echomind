@@ -3,23 +3,132 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mind Reader</title>
+  <title>🔁 EchoMind - Auto-Restart Mic</title>
   <style>
     body {
-      background: #0b0b0b;
+      background: #111;
       color: white;
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      padding-top: 100px;
+      padding-top: 40px;
     }
-    .box {
-      font-size: 2em;
-      color: gold;
+    #cardArea {
+      perspective: 1000px;
+      width: 240px;
+      height: 320px;
+      margin: 40px auto;
+      position: relative;
+    }
+    #cardReveal {
+      width: 100%;
+      height: 100%;
+      background: white;
+      border-radius: 12px;
+      border: 3px solid gold;
+      box-shadow: 0 0 20px #ffe066;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: bold;
+      color: #222;
+      text-transform: uppercase;
+      padding: 10px;
+    }
+    #log {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #ccc;
+      white-space: pre-line;
+      max-width: 95%;
+      margin: 0 auto;
+    }
+    button {
+      margin-top: 20px;
+      padding: 8px 20px;
+      font-size: 16px;
+      background: #222;
+      color: white;
+      border: 1px solid gold;
+      border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="box">✨ Mind Reader will go here ✨</div>
-  <p><a href="../mentalism.html" style="color:#ffe066;">← Back to Mentalism</a></p>
-</body>
-</html>
+  <h1>🔮 EchoMind: Auto-Healing Voice Reveal</h1>
+  <p>Say a card like “three diamonds” or “jack hearts”.</p>
+
+  <div id="cardArea">
+    <div id="cardReveal">Waiting...</div>
+  </div>
+
+  <div id="log">🎤 Listening...</div>
+  <button onclick="restartMic()">🔁 Manual Restart</button>
+
+  <script>
+    const ranks = [
+      ["ace", "Ace"], ["2", "Two"], ["3", "Three"], ["4", "Four"], ["5", "Five"],
+      ["6", "Six"], ["7", "Seven"], ["8", "Eight"], ["9", "Nine"], ["10", "Ten"],
+      ["jack", "Jack"], ["queen", "Queen"], ["king", "King"]
+    ];
+    const suits = ["hearts", "diamonds", "clubs", "spades"];
+
+    
+<script>
+<script>
+const cardMap = {
+  "át cơ": "Ace of Hearts",
+  "át rô": "Ace of Diamonds",
+  "át tép": "Ace of Clubs",
+  "át bích": "Ace of Spades",
+  "hai cơ": "Two of Hearts",
+  "hai rô": "Two of Diamonds",
+  "hai tép": "Two of Clubs",
+  "hai bích": "Two of Spades",
+  "ba cơ": "Three of Hearts",
+  "ba rô": "Three of Diamonds",
+  "ba tép": "Three of Clubs",
+  "ba bích": "Three of Spades",
+  "bốn cơ": "Four of Hearts",
+  "bốn rô": "Four of Diamonds",
+  "bốn tép": "Four of Clubs",
+  "bốn bích": "Four of Spades",
+  "năm cơ": "Five of Hearts",
+  "năm rô": "Five of Diamonds",
+  "năm tép": "Five of Clubs",
+  "năm bích": "Five of Spades",
+  "sáu cơ": "Six of Hearts",
+  "sáu rô": "Six of Diamonds",
+  "sáu tép": "Six of Clubs",
+  "sáu bích": "Six of Spades",
+  "bảy cơ": "Seven of Hearts",
+  "bảy rô": "Seven of Diamonds",
+  "bảy tép": "Seven of Clubs",
+  "bảy bích": "Seven of Spades",
+  "tám cơ": "Eight of Hearts",
+  "tám rô": "Eight of Diamonds",
+  "tám tép": "Eight of Clubs",
+  "tám bích": "Eight of Spades",
+  "chín cơ": "Nine of Hearts",
+  "chín rô": "Nine of Diamonds",
+  "chín tép": "Nine of Clubs",
+  "chín bích": "Nine of Spades",
+  "mười cơ": "Ten of Hearts",
+  "mười rô": "Ten of Diamonds",
+  "mười tép": "Ten of Clubs",
+  "mười bích": "Ten of Spades",
+  "j cơ": "Jack of Hearts",
+  "j rô": "Jack of Diamonds",
+  "j tép": "Jack of Clubs",
+  "j bích": "Jack of Spades",
+  "q cơ": "Queen of Hearts",
+  "q rô": "Queen of Diamonds",
+  "q tép": "Queen of Clubs",
+  "q bích": "Queen of Spades",
+  "k cơ": "King of Hearts",
+  "k rô": "King of Diamonds",
+  "k tép": "King of Clubs",
+  "k bích": "King of Spades",
+};
+</script>
