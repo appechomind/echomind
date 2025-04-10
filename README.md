@@ -1,0 +1,2 @@
+# echomind
+magic app
