@@ -1,8 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Settings Menu</title>
+  <style>
+    body {
+      background: #0b0b0b;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding-top: 80px;
+    }
+    h1 {
+      font-size: 2em;
+      color: #ffe066;
+      text-shadow: 0 0 10px gold;
+    }
+    a {
+      display: inline-block;
+      margin: 15px;
+      padding: 12px 20px;
+      background: #1a1a3d;
+      color: white;
+      border: 2px solid gold;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1.1em;
+      box-shadow: 0 0 10px gold;
+    }
+    a:hover {
+      background: #333;
+      box-shadow: 0 0 20px #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <h1>Settings</h1>
+  <a href="settings/language.html">Language</a>
+  <a href="settings/accessibility.html">Accessibility</a>
 
-    <!DOCTYPE html>
-    <html><head><title>settings</title></head>
-    <body style='background:black;color:white;text-align:center;padding-top:100px;'>
-    <h1>Settings</h1>
-    <p>This is a placeholder for the settings effect.</p>
-    </body></html>
-    
+  <h2 style="margin-top: 50px;">🌐 Language Selection</h2>
+  <select id="language" onchange="changeLang(this.value)">
+    <option value="auto">🌍 Auto (Device Language)</option>
+    <option value="en-US">🇺🇸 English</option>
+    <option value="fil-PH">🇵🇭 Filipino</option>
+    <option value="fi-FI">🇫🇮 Finnish</option>
+    <option value="es-ES">🇪🇸 Spanish</option>
+    <option value="ja-JP">🇯🇵 Japanese</option>
+    <option value="vi-VN">🇻🇳 Vietnamese</option>
+  </select>
+
+  <p style="margin-top:20px;">Current Language: <span id="currentLang"></span></p>
+
+  <script>
+    const browserLang = navigator.language || navigator.userLanguage;
+    let savedLang = localStorage.getItem("echomind_lang") || "auto";
+    let currentLang = (savedLang === "auto") ? browserLang : savedLang;
+    document.getElementById("language").value = savedLang;
+    document.getElementById("currentLang").textContent = currentLang;
+    function changeLang(code) {{
+      localStorage.setItem("echomind_lang", code);
+      location.reload();
+    }}
+  </script>
+
+</body></html>
