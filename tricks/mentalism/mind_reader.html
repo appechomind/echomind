@@ -4,73 +4,60 @@
 <head>
   <meta charset="UTF-8">
   <title>🔁 EchoMind - Auto-Restart Mic</title>
-  <style>
-    body {
-      background: #111;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding-top: 40px;
-    }
-    #cardArea {
-      perspective: 1000px;
-      width: 240px;
-      height: 320px;
-      margin: 40px auto;
-      position: relative;
-    }
-    #cardReveal {
-      width: 100%;
-      height: 100%;
-      background: white;
-      border-radius: 12px;
-      border: 3px solid gold;
-      box-shadow: 0 0 20px #ffe066;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      font-weight: bold;
-      color: #222;
-      text-transform: uppercase;
-      padding: 10px;
-    }
-    #log {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #ccc;
-      white-space: pre-line;
-      max-width: 95%;
-      margin: 0 auto;
-    }
-    button {
-      margin-top: 20px;
-      padding: 8px 20px;
-      font-size: 16px;
-      background: #222;
-      color: white;
-      border: 1px solid gold;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <h1>🔮 EchoMind: Auto-Healing Voice Reveal</h1>
-  <p>Say a card like “three diamonds” or “jack hearts”.</p>
-
-  <div id="cardArea">
-    <div id="cardReveal">Waiting...</div>
-  </div>
-
-  <div id="log">🎤 Listening...</div>
-  <button onclick="restartMic()">🔁 Manual Restart</button>
-
   
-<div style="margin-top:40px;">
-  <button onclick="startListening()" style="padding:15px 25px;font-size:1.2em;background:#1a1a3d;color:white;border:2px solid gold;border-radius:10px;">🎙️ Start Listening</button>
+<style>
+  body {
+    background: #0b0b0b;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+  }
+  h1 {
+    color: #ffe066;
+    text-shadow: 0 0 10px gold;
+  }
+  button {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin: 15px;
+    background: #1a1a3d;
+    color: white;
+    border: 2px solid gold;
+    border-radius: 10px;
+  }
+  button:hover {
+    background: #333;
+  }
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #reveal {
+    margin-top: 30px;
+    font-size: 2em;
+    color: gold;
+    text-shadow: 0 0 10px gold;
+    max-width: 90vw;
+    word-wrap: break-word;
+  }
+</style>
+
+<div class="controls">
+  <button onclick="startListening()">🎙️ Start Listening</button>
+  <label style="margin-top:10px;">
+    <input type="checkbox" id="keepListening" />
+    ♻️ Keep Listening
+  </label>
 </div>
-<div id="reveal" style="margin-top:40px;font-size:2em;color:gold;text-shadow:0 0 10px gold;"></div>
+<div id="reveal"></div>
 
 <script>
 let recognition;
@@ -93,7 +80,11 @@ function startListening() {
   };
   recognition.onend = () => {
     listening = false;
-    document.getElementById("reveal").innerText += "\n(Mic stopped)";
+    if (document.getElementById("keepListening").checked) {
+      startListening();
+    } else {
+      document.getElementById("reveal").innerText += "\n(Mic stopped)";
+    }
   };
   recognition.onerror = (e) => {
     console.error("Mic error:", e);
@@ -117,5 +108,4 @@ function showCard(card) {
   new Audio("https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-reward-952.mp3").play();
 }
 </script>
-
-</body></html>
+</html>
