@@ -2,96 +2,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>EchoMind Orb Menu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: radial-gradient(circle at center, #0c0c22 0%, #000000 100%);
-      font-family: 'Segoe UI', sans-serif;
-      height: 100vh;
+      background: radial-gradient(circle at center, #1b1b2f 0%, #0b0b0b 100%);
       overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
       color: white;
     }
-
-    h1 {
+    .center h1 {
       font-size: 3em;
-      font-weight: bold;
-      text-align: center;
-      color: #ffe066;
-      text-shadow: 0 0 20px #ffe066, 0 0 40px #ffc300;
-      margin-top: 40px;
+      color: #fff;
+      text-shadow: 0 0 20px gold;
     }
-
-    .orb-grid {
-      position: relative;
-      width: 600px;
-      height: 600px;
-      margin: 40px auto;
-    }
-
     .orb {
       position: absolute;
-      width: 140px;
-      height: 140px;
-      background: #14143d;
-      color: white;
-      border: 2px solid gold;
+      width: 120px;
+      height: 120px;
+      background: #1a1a3d;
+      border: 2px solid #6af6ff;
       border-radius: 50%;
-      box-shadow: 0 0 20px #ffd700;
+      box-shadow: 0 0 12px #6af6ff;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: white;
       text-align: center;
-      font-size: 1.1em;
       font-weight: bold;
+      transition: transform 0.3s, box-shadow 0.3s;
       text-decoration: none;
-      transition: all 0.3s ease;
-      padding: 15px;
     }
-
     .orb:hover {
-      background: #292973;
       transform: scale(1.1);
-      box-shadow: 0 0 30px #fff67f;
-    }
-
-    .pos1 { top: 0%; left: 40%; }
-    .pos2 { top: 18%; left: 75%; }
-    .pos3 { top: 45%; left: 90%; }
-    .pos4 { top: 75%; left: 75%; }
-    .pos5 { top: 90%; left: 40%; }
-    .pos6 { top: 75%; left: 5%; }
-    .pos7 { top: 45%; left: -10%; }
-    .pos8 { top: 18%; left: 5%; }
-
-    @media screen and (max-width: 768px) {
-      .orb-grid {
-        width: 100vw;
-        height: 100vw;
-      }
-      .orb {
-        width: 100px;
-        height: 100px;
-        font-size: 0.9em;
-        padding: 10px;
-      }
+      box-shadow: 0 0 20px gold;
     }
   </style>
 </head>
 <body>
-  <h1>EchoMind</h1>
-  <div class="orb-grid">
-    <a href="tricks/mentalism.html" class="orb pos1">Mentalism</a>
-    <a href="tricks/dua_device.html" class="orb pos2">Duá-Device</a>
-    <a href="tricks/phone_effects.html" class="orb pos3">Phone Effects</a>
-    <a href="tricks/puzzles.html" class="orb pos4">Puzzles</a>
-    <a href="tricks/community.html" class="orb pos5">Community</a>
-    <a href="tricks/gizmo.html" class="orb pos6">Gizmo</a>
-    <a href="tricks/settings.html" class="orb pos7">Settings</a>
-    <a href="tricks/dont_click.html" class="orb pos8">Don’t Click</a>
+  <div class="center">
+    <h1>EchoMind</h1>
   </div>
+
+  <a href="tricks/mentalism.html" class="orb" style="top:10%;left:50%;">Mentalism</a>
+  <a href="tricks/dua_device.html" class="orb" style="top:25%;left:80%;">Duá-Device</a>
+  <a href="tricks/phone_effects.html" class="orb" style="top:50%;left:95%;">Phone Effects</a>
+  <a href="tricks/puzzles.html" class="orb" style="top:75%;left:80%;">Puzzles</a>
+  <a href="tricks/community.html" class="orb" style="top:90%;left:50%;">Community</a>
+  <a href="tricks/gizmo.html" class="orb" style="top:75%;left:20%;">Gizmo</a>
+  <a href="tricks/settings.html" class="orb" style="top:50%;left:5%;">Settings</a>
+  <a href="tricks/dont_click.html" class="orb" style="top:25%;left:20%;">Don't Click</a>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').catch(console.error);
+    }
+  </script>
 </body>
 </html>
