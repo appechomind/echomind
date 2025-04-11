@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>EchoMind Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #0b0b0b;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+    h1 {
+      font-size: 2em;
+      color: #ffe066;
+      text-shadow: 0 0 10px gold;
+    }
+    select, option {
+      font-size: 18px;
+      padding: 10px;
+      margin-top: 20px;
+      background: #1a1a3d;
+      color: white;
+      border: 2px solid gold;
+      border-radius: 8px;
+    }
+    p {
+      margin-top: 40px;
+      font-size: 16px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Language Settings</h1>
+  <p>EchoMind will use your device language by default.</p>
+
+  <label for="language">Change Language:</label>
+  <br>
+  <select id="language" onchange="changeLang(this.value)">
+    <option value="auto">🌍 Auto (use device language)</option>
+    <option value="en-US">🇺🇸 English</option>
+    <option value="fil-PH">🇵🇭 Filipino</option>
+    <option value="fi-FI">🇫🇮 Finnish</option>
+    <option value="es-ES">🇪🇸 Spanish</option>
+    <option value="fr-FR">🇫🇷 French</option>
+    <option value="de-DE">🇩🇪 German</option>
+    <option value="ja-JP">🇯🇵 Japanese</option>
+  </select>
+
+  <p>Current language: <span id="currentLang"></span></p>
+
+  <script>
+    const browserLang = navigator.language || navigator.userLanguage;
+    let savedLang = localStorage.getItem("echomind_lang") || "auto";
+    let currentLang = (savedLang === "auto") ? browserLang : savedLang;
+
+    document.getElementById("language").value = savedLang;
+    document.getElementById("currentLang").textContent = currentLang;
+
+    function changeLang(code) {
+      localStorage.setItem("echomind_lang", code);
+      location.reload();
+    }
+  </script>
+</body>
+</html>
