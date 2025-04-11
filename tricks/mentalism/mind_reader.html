@@ -60,6 +60,15 @@
 <div id="reveal"></div>
 
 
+
+<label style="margin-top:20px; display:block;">
+  <input type="checkbox" id="keepListening" /> ♻️ Keep Listening
+</label>
+<label style="margin-top:10px; display:block;">
+  <input type="checkbox" id="hideUI" /> 🕶️ Hide everything behind the reveal
+</label>
+
+
 <script>
   const cardMap = {
   "ace of hearts": "Ace of Hearts",
@@ -119,13 +128,15 @@
   function matchCard(text) {
     const lower = text.toLowerCase();
     for (const [phrase, card] of Object.entries(cardMap)) {
-      if (lower.includes(phrase)) return card;
+      if (lower.includes(phrase)) return phrase.replace(/ /g, "_") + ".png";
     }
     return null;
   }
 
   let recognition;
   let listening = false;
+  let tapCount = 0;
+  let lastTapTime = 0;
 
   function startListening() {
     if (listening) return;
@@ -138,39 +149,55 @@
 
     recognition.onstart = () => {
       listening = true;
-      document.getElementById("reveal").innerText = "🎙️ Listening...";
+      document.getElementById("reveal").innerHTML = "🎙️ Listening...";
     };
 
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
-      const match = matchCard(transcript);
-      if (match) {
-        showCard(match);
+      const cardFile = matchCard(transcript);
+      if (cardFile) {
+        showCard(cardFile);
       } else {
-        document.getElementById("reveal").innerText = "❓ I didn’t recognize a valid card.";
+        document.getElementById("reveal").innerHTML = "❓ No match for: " + transcript;
       }
     };
 
     recognition.onerror = (event) => {
-      document.getElementById("reveal").innerText = "❌ Mic error: " + event.error;
+      document.getElementById("reveal").innerHTML = "❌ Mic error: " + event.error;
     };
 
     recognition.onend = () => {
       listening = false;
-      if (document.getElementById("keepListening").checked) {
+      if (document.getElementById("keepListening")?.checked) {
         startListening();
       } else {
-        document.getElementById("reveal").innerText += "\n(Mic stopped)";
+        document.getElementById("reveal").innerHTML += "<br>(Mic stopped)";
       }
     };
 
     recognition.start();
   }
 
-  function showCard(card) {
-    const output = document.getElementById("reveal");
-    output.innerText = "🎴 " + card;
+  function showCard(filename) {
+    document.getElementById("interface").style.display = document.getElementById("hideUI")?.checked ? "none" : "block";
+    document.getElementById("reveal").innerHTML = '<img src="/assets/cards/PNG-cards-1.3/' + filename + '" alt="' + filename + '" style="width:65vw;max-width:350px;">';
     new Audio("https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-reward-952.mp3").play();
+  }
+
+  document.addEventListener("click", handleTripleTap);
+  document.addEventListener("touchend", handleTripleTap);
+
+  function handleTripleTap() {
+    const now = new Date().getTime();
+    if (now - lastTapTime < 1000) {
+      tapCount++;
+      if (tapCount === 3) {
+        window.location.href = '../mentalism.html';
+      }
+    } else {
+      tapCount = 1;
+    }
+    lastTapTime = now;
   }
 </script>
 
